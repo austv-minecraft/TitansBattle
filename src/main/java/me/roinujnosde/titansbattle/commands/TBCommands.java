@@ -1,8 +1,29 @@
 package me.roinujnosde.titansbattle.commands;
 
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
+
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.CommandHelp;
-import co.aikar.commands.annotation.*;
+import co.aikar.commands.annotation.CatchUnknown;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandCompletion;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Conditions;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Dependency;
+import co.aikar.commands.annotation.Description;
+import co.aikar.commands.annotation.Optional;
+import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.Values;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
 import me.roinujnosde.titansbattle.BaseGameConfiguration;
 import me.roinujnosde.titansbattle.TitansBattle;
@@ -19,16 +40,6 @@ import me.roinujnosde.titansbattle.types.Warrior;
 import me.roinujnosde.titansbattle.types.Winners;
 import me.roinujnosde.titansbattle.utils.Helper;
 import me.roinujnosde.titansbattle.utils.SoundUtils;
-import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
-
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 @CommandAlias("%titansbattle|tb")
 public class TBCommands extends BaseCommand {
@@ -185,6 +196,10 @@ public class TBCommands extends BaseCommand {
 
         Location watchroom = config.getWatchroom();
         sender.teleport(watchroom);
+        
+        // Add player as spectator with range restriction
+        plugin.getSpectatorManager().addSpectator(sender, watchroom);
+        
         SoundUtils.playSound(SoundUtils.Type.WATCH, plugin.getConfig(), sender);
     }
 

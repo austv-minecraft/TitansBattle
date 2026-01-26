@@ -1,4 +1,3 @@
 - Add bar boss messages
 - Add title messages
 - Wait for AuthMe to log player in to clear the inv
-- Check for teleport cause on TeleportEvent (Spectator mode) and set a "walk" range for the spectator

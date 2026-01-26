@@ -21,17 +21,12 @@
  ***************************************************************************** */
 package me.roinujnosde.titansbattle;
 
-import me.roinujnosde.titansbattle.challenges.Challenge;
-import me.roinujnosde.titansbattle.challenges.ChallengeRequest;
-import me.roinujnosde.titansbattle.dao.ConfigurationDao;
-import me.roinujnosde.titansbattle.games.Game;
-import me.roinujnosde.titansbattle.hooks.discord.DiscordWebhook;
-import me.roinujnosde.titansbattle.hooks.papi.PlaceholderHook;
-import me.roinujnosde.titansbattle.managers.*;
-import me.roinujnosde.titansbattle.types.GameConfiguration;
-import me.roinujnosde.titansbattle.types.Kit;
-import me.roinujnosde.titansbattle.types.Prizes;
-import me.roinujnosde.titansbattle.types.Warrior;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -42,11 +37,27 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
+import me.roinujnosde.titansbattle.challenges.Challenge;
+import me.roinujnosde.titansbattle.challenges.ChallengeRequest;
+import me.roinujnosde.titansbattle.dao.ConfigurationDao;
+import me.roinujnosde.titansbattle.games.Game;
+import me.roinujnosde.titansbattle.hooks.discord.DiscordWebhook;
+import me.roinujnosde.titansbattle.hooks.papi.PlaceholderHook;
+import me.roinujnosde.titansbattle.managers.ChallengeManager;
+import me.roinujnosde.titansbattle.managers.CommandManager;
+import me.roinujnosde.titansbattle.managers.ConfigManager;
+import me.roinujnosde.titansbattle.managers.DatabaseManager;
+import me.roinujnosde.titansbattle.managers.GameManager;
+import me.roinujnosde.titansbattle.managers.GroupManager;
+import me.roinujnosde.titansbattle.managers.LanguageManager;
+import me.roinujnosde.titansbattle.managers.ListenerManager;
+import me.roinujnosde.titansbattle.managers.SimpleClansGroupManager;
+import me.roinujnosde.titansbattle.managers.SpectatorManager;
+import me.roinujnosde.titansbattle.managers.TaskManager;
+import me.roinujnosde.titansbattle.types.GameConfiguration;
+import me.roinujnosde.titansbattle.types.Kit;
+import me.roinujnosde.titansbattle.types.Prizes;
+import me.roinujnosde.titansbattle.types.Warrior;
 
 /**
  * @author RoinujNosde
@@ -64,6 +75,7 @@ public final class TitansBattle extends JavaPlugin {
     private ListenerManager listenerManager;
     private ConfigurationDao configurationDao;
     private PlaceholderHook placeholderHook;
+    private SpectatorManager spectatorManager;
 
     @Override
     public void onEnable() {
@@ -78,6 +90,7 @@ public final class TitansBattle extends JavaPlugin {
         challengeManager = new ChallengeManager(this);
         listenerManager = new ListenerManager(this);
         configurationDao = new ConfigurationDao(getDataFolder());
+        spectatorManager = new SpectatorManager(this);
 
         configManager.load();
         languageManager.setup();
@@ -171,6 +184,10 @@ public final class TitansBattle extends JavaPlugin {
 
     public PlaceholderHook getPlaceholderHook() {
         return placeholderHook;
+    }
+
+    public SpectatorManager getSpectatorManager() {
+        return spectatorManager;
     }
 
     /**

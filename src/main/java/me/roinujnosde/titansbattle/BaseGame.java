@@ -92,6 +92,8 @@ public abstract class BaseGame {
         if (getConfig().isWorldBorder()) {
             getConfig().getBorderCenter().getWorld().getWorldBorder().reset();
         }
+        // Remove all spectators when game finishes
+        plugin.getSpectatorManager().clearAll();
         Bukkit.getScheduler().runTask(plugin, () -> plugin.getDatabaseManager().saveAll());
         if (!cancelled) {
             processWinners();
