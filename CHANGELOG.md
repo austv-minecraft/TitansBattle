@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.4.0](https://github.com/austv-minecraft/TitansBattle/compare/6.3.0...v6.4.0) (2026-01-26)
+
+
+### Features
+
+* Add automatic release workflow with JAR artifact ([df62314](https://github.com/austv-minecraft/TitansBattle/commit/df623141304aa650bc25e6f46eae3d6361df9efc))
+* Add JAR artifact upload to release workflow ([fe5d325](https://github.com/austv-minecraft/TitansBattle/commit/fe5d32517b3e50c4b41ed1631b927b06842f453b))
+
 ## [6.2.0](https://github.com/RoinujNosde/TitansBattle/compare/v6.1.0...v6.2.0) (2022-08-09)
 
 
