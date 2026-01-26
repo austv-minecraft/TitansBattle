@@ -72,9 +72,9 @@ public class Warrior {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Warrior) {
+        if (o instanceof Warrior warrior) {
             final UUID uniqueId = toPlayer().getUniqueId();
-            final UUID uniqueId2 = ((Warrior) o).toPlayer().getUniqueId();
+            final UUID uniqueId2 = warrior.toPlayer().getUniqueId();
             return uniqueId.equals(uniqueId2);
         }
         return false;
@@ -116,7 +116,7 @@ public class Warrior {
 
     public void setOnlinePlayer(@NotNull Player player) {
         if (!player.getUniqueId().equals(getUniqueId())) {
-            throw new IllegalArgumentException(String.format("different UUIDs: %s %s", getUniqueId(),
+            throw new IllegalArgumentException("different UUIDs: %s %s".formatted(getUniqueId(),
                     player.getUniqueId()));
         }
         this.playerReference = new WeakReference<>(player);

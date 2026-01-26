@@ -380,7 +380,7 @@ public class EliminationTournamentGame extends Game {
                 name = group.getName();
             }
         } else if (warriors != null && !warriors.isEmpty()) {
-            name = warriors.get(0).getName();
+            name = warriors.getFirst().getName();
         }
         return name;
     }
@@ -468,7 +468,7 @@ public class EliminationTournamentGame extends Game {
     }
 
     private <D> String[] duelToNameArray(Optional<Duel<D>> duel, Function<D, String> getName) {
-        if (!duel.isPresent()) {
+        if (duel.isEmpty()) {
             return new String[]{"", ""};
         }
         return duel.get().getDuelists().stream().filter(Objects::nonNull).map(getName).toArray(String[]::new);

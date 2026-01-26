@@ -12,15 +12,14 @@
     <build>
         <plugins>
             <plugin>
-                <version>3.7.0</version>
+                <version>3.14.1</version>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
+                    <release>21</release>
                 </configuration>
             </plugin>
             <plugin>

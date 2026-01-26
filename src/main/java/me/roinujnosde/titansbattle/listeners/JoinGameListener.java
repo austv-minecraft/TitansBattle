@@ -166,8 +166,8 @@ public class JoinGameListener extends TBListener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void permissionCheck(PlayerJoinGameEvent event) {
         BaseGameConfiguration config = event.getGame().getConfig();
-        if (config instanceof GameConfiguration) {
-            String permission = ((GameConfiguration) config).getPermission();
+        if (config instanceof GameConfiguration configuration) {
+            String permission = configuration.getPermission();
             if (permission != null && !permission.isEmpty()) {
                 if (!event.getPlayer().hasPermission(permission)) {
                     cancelWithMessage(event, "no-permission-game");
@@ -182,6 +182,6 @@ public class JoinGameListener extends TBListener {
 
         player.sendMessage(message);
         event.setCancelled(true);
-        plugin.debug(String.format("Blocked player %s join, message %s", player.getName(), message));
+        plugin.debug("Blocked player %s join, message %s".formatted(player.getName(), message));
     }
 }

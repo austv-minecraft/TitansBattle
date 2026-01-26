@@ -60,6 +60,6 @@ public class FakeGroup extends Group {
 
     @Override
     public boolean isLeaderOrOfficer(@NotNull UUID uuid) {
-        return members.contains(uuid) && members.get(0) == uuid;
+        return members.contains(uuid) && members.getFirst() == uuid;
     }
 }

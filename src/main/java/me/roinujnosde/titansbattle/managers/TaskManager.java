@@ -85,8 +85,8 @@ public class TaskManager {
             public void run() {
                 Optional<GameConfiguration> config = plugin.getConfigurationDao()
                         .getConfiguration(event.getGameName(), GameConfiguration.class);
-                if (!config.isPresent()) {
-                    plugin.getLogger().warning(String.format("Game %s not found!", event.getGameName()));
+                if (config.isEmpty()) {
+                    plugin.getLogger().warning("Game %s not found!".formatted(event.getGameName()));
                     return;
                 }
                 if (plugin.getGameManager().getCurrentGame().isPresent()) {

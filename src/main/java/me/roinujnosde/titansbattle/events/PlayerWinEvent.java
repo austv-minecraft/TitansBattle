@@ -56,7 +56,7 @@ public class PlayerWinEvent extends Event {
      * @return the winner of the event
      */
     public Warrior getPlayer() {
-        return players.get(0);
+        return players.getFirst();
     }
 
     /**

@@ -276,7 +276,7 @@ public abstract class BaseGameConfiguration implements ConfigurationSerializable
     public Prizes getPrizes(@NotNull Prize prize) {
         Prizes prizes = prizesMap.get(prize.name());
         if (prizes == null) {
-            Logger.getLogger("TitansBattle").warning(String.format("Prizes not set for %s!", prize.name()));
+            Logger.getLogger("TitansBattle").warning("Prizes not set for %s!".formatted(prize.name()));
             prizes = new Prizes();
         }
         return prizes;

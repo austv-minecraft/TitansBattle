@@ -138,7 +138,7 @@ public final class TitansBattle extends JavaPlugin {
      */
     public void setGroupManager(@NotNull GroupManager groupManager) {
         this.groupManager = groupManager;
-        getLogger().info(String.format("Registered %s", groupManager.getClass().getSimpleName()));
+        getLogger().info("Registered %s".formatted(groupManager.getClass().getSimpleName()));
     }
 
     public GameManager getGameManager() {

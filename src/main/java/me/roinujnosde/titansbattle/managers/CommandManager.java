@@ -44,13 +44,13 @@ public class CommandManager extends PaperCommandManager {
         try {
             Bukkit.dispatchCommand(sender, commandLine);
         } catch (Exception exception) {
-            TitansBattle.getInstance().getLogger().log(Level.SEVERE, String.format("Error executing command: %s", commandLine), exception);
+            TitansBattle.getInstance().getLogger().log(Level.SEVERE, "Error executing command: %s".formatted(commandLine), exception);
         }
     }
 
     private void setDefaultLocale() {
         BukkitLocales locales = getLocales();
-        Locale defaultLocale = new Locale(getPlugin().getConfigManager().getLanguage().split("_")[0]);
+        Locale defaultLocale = Locale.of(getPlugin().getConfigManager().getLanguage().split("_")[0]);
         locales.setDefaultLocale(defaultLocale);
 
         LanguageManager languageManager = getPlugin().getLanguageManager();

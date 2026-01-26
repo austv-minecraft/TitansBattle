@@ -15,8 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
 
-import static java.lang.String.format;
-
 public class ItemsProtectionListener extends TBListener {
 
     public ItemsProtectionListener(@NotNull TitansBattle plugin) {
@@ -50,7 +48,7 @@ public class ItemsProtectionListener extends TBListener {
                 continue;
             }
             if (Kit.isKitItem(item)) {
-                plugin.debug(format("Removing kit item from %s's inventory", player.getName()));
+                plugin.debug("Removing kit item from %s's inventory".formatted(player.getName()));
                 inventory.remove(item);
                 item.setAmount(0); //needed for some Minecraft versions
             }

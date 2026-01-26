@@ -283,13 +283,13 @@ public class Helper {
      */
     public static @Nullable Player getPlayerAttackerOrKiller(Entity entity) {
         Player investigated = null;
-        if (entity instanceof Player) {
-            investigated = (Player) entity;
+        if (entity instanceof Player player) {
+            investigated = player;
         }
-        if (entity instanceof Projectile) {
-            ProjectileSource shooter = ((Projectile) entity).getShooter();
-            if (shooter instanceof Player) {
-                investigated = (Player) shooter;
+        if (entity instanceof Projectile projectile) {
+            ProjectileSource shooter = projectile.getShooter();
+            if (shooter instanceof Player player) {
+                investigated = player;
             }
         }
         return investigated;
@@ -309,9 +309,9 @@ public class Helper {
             Game currentGame = plugin.getGameManager().getCurrentGame().orElse(null);
             String listColor = plugin.getLang("list-color", currentGame);
             sb.append(listColor);
-            if (s.equalsIgnoreCase(list.get(0))) {
+            if (s.equalsIgnoreCase(list.getFirst())) {
                 sb.append(s);
-            } else if (s.equals(list.get(list.size() - 1))) {
+            } else if (s.equals(list.getLast())) {
                 sb.append(" & ");
                 sb.append(s);
             } else {
