@@ -1,0 +1,58 @@
+name: Create Release
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    build-and-release:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: Set up JDK 21
+              uses: actions/setup-java@v3
+              with:
+                  java-version: 21
+                  cache: "maven"
+                  distribution: "adopt"
+
+            - name: Build with Maven
+              run: mvn -B package --file pom.xml
+
+            - name: Get plugin version
+              id: version
+              run: |
+                  VERSION=$(grep -oP '(?<=<version>)[^<]+' pom.xml | head -1)
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+                  echo "Plugin version: $VERSION"
+
+            - name: Get JAR filename
+              id: jar
+              run: |
+                  JAR_FILE=$(ls target/*.jar | grep -v original | head -1)
+                  JAR_NAME=$(basename $JAR_FILE)
+                  echo "file=$JAR_FILE" >> $GITHUB_OUTPUT
+                  echo "name=$JAR_NAME" >> $GITHUB_OUTPUT
+                  echo "JAR file: $JAR_NAME"
+
+            - name: Create Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: v${{ steps.version.outputs.version }}
+                  name: Release ${{ steps.version.outputs.version }}
+                  body: |
+                      ## TitansBattle ${{ steps.version.outputs.version }}
+
+                      Automatic release generated from commit: ${{ github.sha }}
+
+                      ### Changes
+                      - Built with Java 21
+                      - See commit history for detailed changes
+                  files: ${{ steps.jar.outputs.file }}
+                  draft: false
+                  prerelease: ${{ contains(steps.version.outputs.version, 'SNAPSHOT') }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
