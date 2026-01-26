@@ -107,16 +107,16 @@ public abstract class BaseGame {
 
     public void onJoin(@NotNull Warrior warrior) {
         if (!canJoin(warrior)) {
-            plugin.debug(String.format("Warrior %s can't join", warrior.getName()));
+            plugin.debug("Warrior %s can't join".formatted(warrior.getName()));
             return;
         }
         Player player = warrior.toOnlinePlayer();
         if (player == null) {
-            plugin.debug(String.format("onJoin() -> player %s %s == null", warrior.getName(), warrior.getUniqueId()));
+            plugin.debug("onJoin() -> player %s %s == null".formatted(warrior.getName(), warrior.getUniqueId()));
             return;
         }
         if (!teleport(warrior, getConfig().getLobby())) {
-            plugin.debug(String.format("Player %s is dead: %s", player, player.isDead()), false);
+            plugin.debug("Player %s is dead: %s".formatted(player, player.isDead()), false);
             player.sendMessage(getLang("teleport.error"));
             return;
         }
@@ -217,13 +217,13 @@ public abstract class BaseGame {
     protected @Nullable Warrior getLastAttacker(@NotNull Warrior victim) {
         Player player = victim.toOnlinePlayer();
         EntityDamageEvent event = player != null ? player.getLastDamageCause() : null;
-        if (event instanceof EntityDamageByEntityEvent) {
-            Entity attacker = ((EntityDamageByEntityEvent) event).getDamager();
-            if (attacker instanceof Player) {
-                return plugin.getDatabaseManager().getWarrior((Player) attacker);
+        if (event instanceof EntityDamageByEntityEvent entityEvent) {
+            Entity attacker = entityEvent.getDamager();
+            if (attacker instanceof Player player1) {
+                return plugin.getDatabaseManager().getWarrior(player1);
             }
-            if (attacker instanceof Projectile) {
-                return plugin.getDatabaseManager().getWarrior((Player) ((Projectile) attacker).getShooter());
+            if (attacker instanceof Projectile projectile) {
+                return plugin.getDatabaseManager().getWarrior((Player) projectile.getShooter());
             }
         }
         return null;
@@ -352,10 +352,10 @@ public abstract class BaseGame {
     }
 
     protected boolean teleport(@Nullable Warrior warrior, @NotNull Location destination) {
-        plugin.debug(String.format("teleport() -> destination %s", destination));
+        plugin.debug("teleport() -> destination %s".formatted(destination));
         Player player = warrior != null ? warrior.toOnlinePlayer() : null;
         if (player == null) {
-            plugin.debug(String.format("teleport() -> warrior %s", warrior));
+            plugin.debug("teleport() -> warrior %s".formatted(warrior));
             return false;
         }
         SoundUtils.playSound(TELEPORT, plugin.getConfig(), player);
@@ -564,7 +564,7 @@ public abstract class BaseGame {
     protected void teleportToArena(List<Warrior> warriors) {
         List<Location> arenaEntrances = new ArrayList<>(getConfig().getArenaEntrances().values());
         if (arenaEntrances.size() == 1) {
-            teleport(warriors, arenaEntrances.get(0));
+            teleport(warriors, arenaEntrances.getFirst());
             return;
         }
 

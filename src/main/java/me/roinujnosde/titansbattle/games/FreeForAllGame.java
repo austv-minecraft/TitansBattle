@@ -91,7 +91,7 @@ public class FreeForAllGame extends Game {
             givePrizes(KILLER, null, Collections.singletonList(killer));
         }
         today.setWinners(gameName, Helper.warriorListToUuidList(winners));
-        String winnerName = getConfig().isGroupMode() ? winnerGroup.getName() : winners.get(0).getName();
+        String winnerName = getConfig().isGroupMode() ? winnerGroup.getName() : winners.getFirst().getName();
         broadcastKey("who_won", winnerName);
         discordAnnounce("discord_who_won", winnerName);
         winners.forEach(w -> w.increaseVictories(gameName));

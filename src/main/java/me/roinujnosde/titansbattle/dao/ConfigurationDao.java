@@ -75,13 +75,13 @@ public class ConfigurationDao {
         name = name.replace(" ", "_").replace(".", "");
         Metadata metadata = metadataMap.get(clazz);
         if (metadata == null) {
-            throw new IllegalArgumentException(String.format("Invalid config class: %s", clazz.getName()));
+            throw new IllegalArgumentException("Invalid config class: %s".formatted(clazz.getName()));
         }
 
         File file = new File(metadata.folder, name + ".yml");
         try {
             if (!file.createNewFile()) {
-                logger.log(Level.SEVERE, String.format("Error creating the config %s's file. Maybe it already exists?",
+                logger.log(Level.SEVERE, "Error creating the config %s's file. Maybe it already exists?".formatted(
                         name));
                 return false;
             }
@@ -96,7 +96,7 @@ public class ConfigurationDao {
             configurations.add(config);
             return true;
         } catch (IOException | ReflectiveOperationException ex) {
-            logger.log(Level.SEVERE, String.format("Error creating the config %s", name), ex);
+            logger.log(Level.SEVERE, "Error creating the config %s".formatted(name), ex);
         }
         return false;
     }

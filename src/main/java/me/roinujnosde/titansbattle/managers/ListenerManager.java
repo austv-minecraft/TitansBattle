@@ -50,7 +50,7 @@ public class ListenerManager {
     private void registerListener(TBListener listener, boolean permanent) {
         if (permanent || add(listener)) {
             plugin.getServer().getPluginManager().registerEvents(listener, plugin);
-            plugin.debug(String.format("Registering %s", listener.getClass().getName()));
+            plugin.debug("Registering %s".formatted(listener.getClass().getName()));
         }
     }
 

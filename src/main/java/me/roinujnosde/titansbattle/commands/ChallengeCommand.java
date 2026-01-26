@@ -79,7 +79,7 @@ public class ChallengeCommand extends BaseCommand {
     public void accept(@Conditions("is_invited") Warrior warrior, @Optional @Values("@requests") ChallengeRequest<?> challenger) {
         if (challenger == null) {
             List<ChallengeRequest<?>> requests = challengeManager.getRequestsByInvited(warrior);
-            requests.get(requests.size() - 1).getChallenge().onJoin(warrior);
+            requests.getLast().getChallenge().onJoin(warrior);
             return;
         }
         challenger.getChallenge().onJoin(warrior);

@@ -148,14 +148,14 @@ public class TBExpansion extends PlaceholderExpansion {
     @NotNull
     private String getWinnerPrefix(@NotNull OfflinePlayer player, @NotNull String game) {
         Optional<GameConfiguration> config = plugin.getConfigurationDao().getConfiguration(game, GameConfiguration.class);
-        if (!config.isPresent()) {
-            plugin.debug(String.format("game %s not found", game));
+        if (config.isEmpty()) {
+            plugin.debug("game %s not found".formatted(game));
             return "";
         }
         Winners latestWinners = plugin.getDatabaseManager().getLatestWinners();
         List<UUID> playerWinners = latestWinners.getPlayerWinners(game);
         if (playerWinners == null || !playerWinners.contains(player.getUniqueId())) {
-            plugin.debug(String.format("player winners: %s", playerWinners));
+            plugin.debug("player winners: %s".formatted(playerWinners));
             return "";
         }
         String prefix = config.get().getWinnerPrefix();
@@ -166,7 +166,7 @@ public class TBExpansion extends PlaceholderExpansion {
     @NotNull
     private String getKillerPrefix(@NotNull OfflinePlayer player, @NotNull String game) {
         Optional<GameConfiguration> config = plugin.getConfigurationDao().getConfiguration(game, GameConfiguration.class);
-        if (!config.isPresent()) {
+        if (config.isEmpty()) {
             return "";
         }
         Winners latestWinners = plugin.getDatabaseManager().getLatestWinners();
@@ -191,7 +191,7 @@ public class TBExpansion extends PlaceholderExpansion {
 
     private @NotNull String getLastKiller(String game) {
         Optional<Winners> winners = getLastWinnersMatching(w -> w.getKiller(game) != null);
-        if (!winners.isPresent()) {
+        if (winners.isEmpty()) {
             return "";
         }
         UUID killer = winners.get().getKiller(game);
@@ -200,7 +200,7 @@ public class TBExpansion extends PlaceholderExpansion {
 
     private @NotNull String getLastWinnerGroup(String game) {
         Optional<Winners> winner = getLastWinnersMatching(w -> w.getWinnerGroup(game) != null);
-        if (!winner.isPresent()) {
+        if (winner.isEmpty()) {
             return "";
         }
         return winner.get().getWinnerGroup(game);

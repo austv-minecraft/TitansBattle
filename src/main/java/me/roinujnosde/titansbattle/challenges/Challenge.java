@@ -99,7 +99,7 @@ public class Challenge extends BaseGame {
         }
         PlayerWinEvent event = new PlayerWinEvent(this, winners);
         Bukkit.getPluginManager().callEvent(event);
-        String winnerName = getConfig().isGroupMode() ? winnerGroup.getName() : winners.get(0).getName();
+        String winnerName = getConfig().isGroupMode() ? winnerGroup.getName() : winners.getFirst().getName();
         SoundUtils.playSound(VICTORY, plugin.getConfig(), winners);
         givePrizes(FIRST, winnerGroup, winners);
         broadcastKey("who_won", winnerName, getLoserName());

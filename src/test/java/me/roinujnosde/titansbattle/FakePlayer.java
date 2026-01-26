@@ -25,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.net.InetSocketAddress;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -40,7 +41,7 @@ public class FakePlayer implements Player {
     }
 
     public FakePlayer(UUID uuid) {
-        name = Material.values()[(int) (Math.random() * Material.values().length)].name();
+        name = Material.values()[(int) (ThreadLocalRandom.current().nextDouble() * Material.values().length)].name();
         this.uuid = uuid;
     }
 

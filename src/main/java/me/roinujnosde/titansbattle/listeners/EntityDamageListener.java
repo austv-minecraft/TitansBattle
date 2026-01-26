@@ -92,8 +92,8 @@ public class EntityDamageListener extends TBListener {
     }
 
     private boolean isParticipant(Entity entity) {
-        if (entity instanceof Player) {
-            return plugin.getBaseGameFrom((Player) entity) != null;
+        if (entity instanceof Player player) {
+            return plugin.getBaseGameFrom(player) != null;
         }
         return false;
     }

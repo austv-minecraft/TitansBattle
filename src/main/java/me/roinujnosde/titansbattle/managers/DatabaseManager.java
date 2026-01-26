@@ -257,7 +257,7 @@ public class DatabaseManager {
         String uuid = warrior.toPlayer().getUniqueId().toString();
         String name = warrior.toPlayer().getName();
         if (name == null) {
-            plugin.debug(String.format("Name not found for %s", uuid));
+            plugin.debug("Name not found for %s".formatted(uuid));
             return;
         }
 
@@ -322,8 +322,8 @@ public class DatabaseManager {
     public Warrior getWarrior(@NotNull UUID uuid) {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
         Warrior warrior = warriors.computeIfAbsent(uuid, (id) -> new Warrior(offlinePlayer, plugin::getGroupManager));
-        if (offlinePlayer instanceof Player) {
-            warrior.setOnlinePlayer((Player) offlinePlayer);
+        if (offlinePlayer instanceof Player player) {
+            warrior.setOnlinePlayer(player);
         }
         return warrior;
     }
@@ -514,7 +514,7 @@ public class DatabaseManager {
         if (winners.isEmpty()) {
             return getEmptyWinners(null);
         }
-        return winners.get(winners.size() - 1);
+        return winners.getLast();
     }
 
     public Winners getTodaysWinners() {

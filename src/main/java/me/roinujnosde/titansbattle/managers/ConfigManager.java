@@ -38,8 +38,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 
-import static java.lang.String.format;
-
 /**
  *
  * @author RoinujNosde
@@ -78,7 +76,7 @@ public final class ConfigManager {
                         int minute = config.getInt(pathPrefix + id + ".minute");
                         events.add(new Event(game, frequency, day, hour, minute));
                     } catch (IllegalArgumentException ex) {
-                        plugin.getLogger().log(Level.SEVERE, format("Invalid event configuration for ID %s: %s", id, ex.getMessage()));
+                        plugin.getLogger().log(Level.SEVERE, "Invalid event configuration for ID %s: %s".formatted(id, ex.getMessage()));
                     }
                 }
             }

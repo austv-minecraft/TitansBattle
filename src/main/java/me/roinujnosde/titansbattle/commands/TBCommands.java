@@ -114,7 +114,7 @@ public class TBCommands extends BaseCommand {
     @Conditions("happening")
     @Description("{@@command.description.join}")
     public void join(Player sender) {
-        plugin.debug(String.format("%s used /tb join", sender.getName()));
+        plugin.debug("%s used /tb join".formatted(sender.getName()));
         gameManager.getCurrentGame().ifPresent(g -> g.onJoin(databaseManager.getWarrior(sender)));
     }
 

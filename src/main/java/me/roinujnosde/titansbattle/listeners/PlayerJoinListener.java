@@ -100,7 +100,7 @@ public class PlayerJoinListener extends TBListener {
             SoundUtils.playSound(SoundUtils.Type.TELEPORT, plugin.getConfig(), player);
             player.teleport(cm.getGeneralExit());
         } else {
-            plugin.getLogger().warning(String.format("GENERAL_EXIT is not set, it was not possible to teleport %s",
+            plugin.getLogger().warning("GENERAL_EXIT is not set, it was not possible to teleport %s".formatted(
                     player.getName()));
         }
         cm.getRespawn().remove(player.getUniqueId());

@@ -19,6 +19,7 @@ import org.junit.jupiter.api.RepetitionInfo;
 import org.mockito.Mockito;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -103,7 +104,7 @@ public class EliminationTournamentGameTest {
         scheduler.performTicks(300); //lobby announcements
         assertFalse(game.isLobby());
 
-        Warrior expectedWinner = game.getParticipants().get(0);
+        Warrior expectedWinner = game.getParticipants().getFirst();
         int count = 0;
         while (game.getParticipants().size() > 1) {
             List<Warrior> current = new ArrayList<>(game.getCurrentFighters());
@@ -111,11 +112,11 @@ public class EliminationTournamentGameTest {
             if (count % 2 == oddOrEven) {
                 List<Warrior> list = game.getParticipants().stream().filter(w -> !current.contains(w) && w != expectedWinner).collect(Collectors.toList());
                 if (!list.isEmpty()) {
-                    game.onDisconnect(list.get((int) (list.size() * Math.random())));
+                    game.onDisconnect(list.get((int) (list.size() * ThreadLocalRandom.current().nextDouble())));
                 }
             } else {
-                victim = current.get(0) != expectedWinner ? current.get(0) : current.get(1);
-                Warrior killer = current.get(0) == victim ? current.get(1) : current.get(0);
+                victim = current.getFirst() != expectedWinner ? current.getFirst() : current.get(1);
+                Warrior killer = current.getFirst() == victim ? current.get(1) : current.getFirst();
                 game.onDeath(victim, killer);
             }
 
@@ -159,7 +160,7 @@ public class EliminationTournamentGameTest {
         scheduler.performTicks(300); //lobby announcements
         assertFalse(game.isLobby());
 
-        Warrior expectedWinner = game.getParticipants().get(0);
+        Warrior expectedWinner = game.getParticipants().getFirst();
 
         int count = 0;
         while (game.getGroupParticipants().size() > 1) {
@@ -168,7 +169,7 @@ public class EliminationTournamentGameTest {
             if (count % 2 == oddOrEven) {
                 List<Warrior> list = game.getParticipants().parallelStream().filter(w -> !current.contains(w) && w != expectedWinner).collect(Collectors.toList());
                 if (!list.isEmpty()) {
-                    Warrior warrior = list.get(list.size() - 1);
+                    Warrior warrior = list.getLast();
                     game.onDisconnect(warrior);
                 }
             } else {
