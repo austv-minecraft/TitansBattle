@@ -8,8 +8,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: google-github-actions/release-please-action@v3
+        id: release
         with:
           release-type: maven
           package-name: TitansBattle
           token: ${{ secrets.PAT_TOKEN }}
           fork: false
+      
+      - name: Checkout code
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK 21
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+      
+      - name: Build with Maven
+        if: ${{ steps.release.outputs.release_created }}
+        run: mvn clean package -DskipTests
+      
+      - name: Upload Release Artifact
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          JAR_FILE=$(find target -name "*.jar" -not -name "*-original.jar" | head -n 1)
+          gh release upload ${{ steps.release.outputs.tag_name }} "$JAR_FILE"
