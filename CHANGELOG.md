@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.4.4](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.3...v6.4.4) (2026-02-01)
+
+
+### Bug Fixes
+
+* Add createSourcesJar and shadedArtifactAttached to execution config ([8a0b963](https://github.com/austv-minecraft/TitansBattle/commit/8a0b963e4a1cda283065b4590c672595bf2d0c3e))
+* Delete original JAR before upload in workflow ([47c7567](https://github.com/austv-minecraft/TitansBattle/commit/47c7567a3c1e945da6aee653603b54af95826fab))
+
 ## [6.4.3](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.2...v6.4.3) (2026-02-01)
 
 
