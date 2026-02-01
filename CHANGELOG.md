@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.4.1](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.0...v6.4.1) (2026-02-01)
+
+
+### Bug Fixes
+
+* Adjust spectator teleportation order in TBCommands ([1c37c32](https://github.com/austv-minecraft/TitansBattle/commit/1c37c329cb66b91b9e27a71f215c3d214944f555))
+* Use PAT_TOKEN for release artifact upload ([79d9e65](https://github.com/austv-minecraft/TitansBattle/commit/79d9e6580431f872e37cac431523a2d1db4a87ba))
+
 ## [6.4.0](https://github.com/austv-minecraft/TitansBattle/compare/6.3.0...v6.4.0) (2026-01-26)
 
 
