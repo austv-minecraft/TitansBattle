@@ -36,5 +36,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          JAR_FILE=$(find target -name "*.jar" -not -name "*-original.jar" | head -n 1)
+          JAR_FILE=$(find target -name "*.jar" -not -name "*.jar" | head -n 1)
           gh release upload ${{ steps.release.outputs.tag_name }} "$JAR_FILE"
