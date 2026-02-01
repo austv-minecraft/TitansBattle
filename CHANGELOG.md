@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.4.2](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.1...v6.4.2) (2026-02-01)
+
+
+### Bug Fixes
+
+* NBT-API relocation pattern and spectator mode activation order ([929abca](https://github.com/austv-minecraft/TitansBattle/commit/929abca9e968b574feca28df603d02cdae07c346))
+
 ## [6.4.1](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.0...v6.4.1) (2026-02-01)
 
 
