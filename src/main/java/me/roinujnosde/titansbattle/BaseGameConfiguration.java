@@ -1,18 +1,23 @@
 package me.roinujnosde.titansbattle;
 
-import me.roinujnosde.titansbattle.serialization.ConfigUtils;
-import me.roinujnosde.titansbattle.serialization.Path;
-import me.roinujnosde.titansbattle.types.Kit;
-import me.roinujnosde.titansbattle.types.Prizes;
+import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.util.*;
-import java.util.logging.Logger;
+import me.roinujnosde.titansbattle.serialization.ConfigUtils;
+import me.roinujnosde.titansbattle.serialization.Path;
+import me.roinujnosde.titansbattle.types.Kit;
+import me.roinujnosde.titansbattle.types.Prizes;
 
 @SuppressWarnings("FieldMayBeFinal")
 public abstract class BaseGameConfiguration implements ConfigurationSerializable {
@@ -85,6 +90,9 @@ public abstract class BaseGameConfiguration implements ConfigurationSerializable
     protected Integer borderInterval = 120;
     @Path("worldborder.damage")
     protected Double borderDamage = 5.0;
+
+    @Path("spectator-range")
+    protected Double spectatorRange = 50.0;
 
     public @NotNull FileConfiguration getFileConfiguration() {
         if (fileConfiguration == null) {
@@ -251,6 +259,10 @@ public abstract class BaseGameConfiguration implements ConfigurationSerializable
 
     public Boolean isWorldBorder() {
         return worldBorder;
+    }
+
+    public Double getSpectatorRange() {
+        return spectatorRange;
     }
 
     public Integer getBorderInterval() {

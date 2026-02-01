@@ -195,9 +195,10 @@ public class TBCommands extends BaseCommand {
         config = (arena == null) ? game.getConfig() : arena;
 
         Location watchroom = config.getWatchroom();
+        Double spectatorRange = config.getSpectatorRange();
         
         // Add player as spectator first (this sets gamemode to SPECTATOR)
-        plugin.getSpectatorManager().addSpectator(sender, watchroom);
+        plugin.getSpectatorManager().addSpectator(sender, watchroom, spectatorRange);
         
         // Then teleport to watchroom
         sender.teleport(watchroom);

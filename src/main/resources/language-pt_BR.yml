@@ -25,6 +25,8 @@ command.description.challenge.setdestination: "Define um destino para um desafio
 command.description.challenge.setkit: "Define seu inventário como o kit de um desafio"
 command.description.setwinner: "Define um jogador como o vencedor"
 objective: "&a» Objetivo: &cMate todos os seus oponentes para ganhar!"
+spectator-range-limit: "&c» Você não pode se mover além do limite de alcance do espectador!"
+spectator-left-mode: "&a» Você saiu do modo espectador!"
 item_not_allowed: "&c» Você não pode entrar no jogo com este item: {0}"
 challenge_item_not_allowed: "&c» Você não pode participar do desafio com este item: {0}"
 changed-field-value: "&a» Valor do campo alterado com sucesso!"

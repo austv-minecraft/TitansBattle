@@ -84,10 +84,6 @@ blocked_commands_everyone:
 #Send a webhook in game start, leave empty to disable
 discord_webhook_url: ""
 
-#Spectator range limit (in blocks) when watching a game
-#Players in spectator mode cannot move beyond this distance from the watchroom location
-spectator-range: 50.0
-
 #Destinations
 destinations:
     general_exit:

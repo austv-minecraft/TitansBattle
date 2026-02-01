@@ -30,9 +30,9 @@ public class SpectatorManager {
      * 
      * @param player The player to add as spectator
      * @param centerLocation The center location for the spectator range
+     * @param range The maximum range in blocks for the spectator
      */
-    public void addSpectator(@NotNull Player player, @NotNull Location centerLocation) {
-        double range = plugin.getConfig().getDouble("spectator-range", DEFAULT_SPECTATOR_RANGE);
+    public void addSpectator(@NotNull Player player, @NotNull Location centerLocation, double range) {
         SpectatorData data = new SpectatorData(
             player.getGameMode(), 
             centerLocation.clone(),

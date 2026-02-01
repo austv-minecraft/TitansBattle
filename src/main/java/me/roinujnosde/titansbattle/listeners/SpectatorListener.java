@@ -59,8 +59,19 @@ public class SpectatorListener extends TBListener {
         }
         
         // Check if teleport is within range for spectators
-        // Allow spectator teleport if it's within the allowed range
         if (!plugin.getSpectatorManager().isWithinRange(player, to)) {
+            // Check if it's a command-based teleport (player wants to leave spectator mode)
+            PlayerTeleportEvent.TeleportCause cause = event.getCause();
+            if (cause == PlayerTeleportEvent.TeleportCause.COMMAND || 
+                cause == PlayerTeleportEvent.TeleportCause.PLUGIN) {
+                // Allow the teleport and remove from spectator mode
+                plugin.getSpectatorManager().removeSpectator(player);
+                player.sendMessage(plugin.getLang("spectator-left-mode"));
+                plugin.debug("Spectator " + player.getName() + " left spectator mode via teleport command");
+                return;
+            }
+            
+            // Cancel other types of teleports (spectator clicking, etc)
             event.setCancelled(true);
             player.sendMessage(plugin.getLang("spectator-range-limit"));
             plugin.debug("Cancelled spectator teleport for " + player.getName() + " - outside range");
