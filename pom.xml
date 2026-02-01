@@ -44,7 +44,7 @@
                 <version>3.5.1</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <shadedArtifactAttached>false</shadedArtifactAttached>
+                    <createSourcesJar>false</createSourcesJar>
                     <relocations>
                         <relocation>
                             <pattern>com.google.gson</pattern>
@@ -75,6 +75,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
                             <artifactSet>
                                 <excludes>
                                     <exclude>classworlds:classworlds</exclude>
