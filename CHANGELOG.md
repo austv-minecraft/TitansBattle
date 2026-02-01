@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.5.0](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.4...v6.5.0) (2026-02-01)
+
+
+### Features
+
+* Move spectator-range config from global to per-game setting ([fa7d41f](https://github.com/austv-minecraft/TitansBattle/commit/fa7d41f33c58d675055b60fcd3c57bc7279a18f8))
+
 ## [6.4.4](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.3...v6.4.4) (2026-02-01)
 
 
