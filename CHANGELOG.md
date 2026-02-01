@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.4.3](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.2...v6.4.3) (2026-02-01)
+
+
+### Bug Fixes
+
+* Configure maven-shade to not generate original JAR and fix release workflow pattern ([ad2cd27](https://github.com/austv-minecraft/TitansBattle/commit/ad2cd27a09c19b61d3132bb87ac6bf24c1bcd1ce))
+
 ## [6.4.2](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.1...v6.4.2) (2026-02-01)
 
 
