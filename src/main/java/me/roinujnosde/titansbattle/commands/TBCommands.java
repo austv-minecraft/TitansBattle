@@ -195,10 +195,12 @@ public class TBCommands extends BaseCommand {
         config = (arena == null) ? game.getConfig() : arena;
 
         Location watchroom = config.getWatchroom();
-        sender.teleport(watchroom);
         
-        // Add player as spectator with range restriction
+        // Add player as spectator first (this sets gamemode to SPECTATOR)
         plugin.getSpectatorManager().addSpectator(sender, watchroom);
+        
+        // Then teleport to watchroom
+        sender.teleport(watchroom);
         
         SoundUtils.playSound(SoundUtils.Type.WATCH, plugin.getConfig(), sender);
     }
