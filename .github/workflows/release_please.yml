@@ -29,12 +29,14 @@ jobs:
 
       - name: Build with Maven
         if: ${{ steps.release.outputs.release_created }}
-        run: mvn clean package -DskipTests
+        run: |
+          mvn clean package -DskipTests
+          rm -f target/original-*.jar
 
       - name: Upload Release Artifact
         if: ${{ steps.release.outputs.release_created }}
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          JAR_FILE=$(find target -name "*.jar" -not -name "*-original.jar" | head -n 1)
+          JAR_FILE=$(find target -name "*.jar" | head -n 1)
           gh release upload ${{ steps.release.outputs.tag_name }} "$JAR_FILE"
