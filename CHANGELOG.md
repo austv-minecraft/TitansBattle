@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.6.0](https://github.com/austv-minecraft/TitansBattle/compare/v6.5.1...v6.6.0) (2026-02-07)
+
+
+### Features
+
+* Teleport spectators to exit location when event finishes ([532b2eb](https://github.com/austv-minecraft/TitansBattle/commit/532b2eb41e1e6aa40325f24163a7ce0849df4953))
+
 ## [6.5.1](https://github.com/austv-minecraft/TitansBattle/compare/v6.5.0...v6.5.1) (2026-02-07)
 
 
