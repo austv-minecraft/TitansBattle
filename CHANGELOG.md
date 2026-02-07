@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.5.1](https://github.com/austv-minecraft/TitansBattle/compare/v6.5.0...v6.5.1) (2026-02-07)
+
+
+### Bug Fixes
+
+* Fix ConcurrentModificationException and event finish issues ([994a201](https://github.com/austv-minecraft/TitansBattle/commit/994a20150345c0a48f27c7019f11f291c5989226))
+
 ## [6.5.0](https://github.com/austv-minecraft/TitansBattle/compare/v6.4.4...v6.5.0) (2026-02-01)
 
 
