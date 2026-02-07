@@ -83,7 +83,16 @@ public abstract class BaseGame {
     }
 
     public void finish(boolean cancelled) {
-        teleportAll(getConfig().getExit());
+        Location exitLocation = getConfig().getExit();
+        if (exitLocation == null) {
+            exitLocation = plugin.getConfigManager().getGeneralExit();
+            plugin.debug("Event exit location is null, using general_exit");
+        }
+        if (exitLocation != null) {
+            teleportAll(exitLocation);
+        } else {
+            plugin.getLogger().warning("Cannot teleport players: both event exit and general_exit are not configured!");
+        }
         killTasks();
         runCommandsAfterBattle(getParticipants());
         if (getConfig().isUseKits()) {

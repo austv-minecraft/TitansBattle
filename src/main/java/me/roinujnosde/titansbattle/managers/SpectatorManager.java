@@ -103,7 +103,8 @@ public class SpectatorManager {
      * Clears all spectators (used when game ends)
      */
     public void clearAll() {
-        for (UUID uuid : spectators.keySet()) {
+        // Create a copy to avoid ConcurrentModificationException
+        for (UUID uuid : new HashMap<>(spectators).keySet()) {
             Player player = plugin.getServer().getPlayer(uuid);
             if (player != null && player.isOnline()) {
                 removeSpectator(player);
