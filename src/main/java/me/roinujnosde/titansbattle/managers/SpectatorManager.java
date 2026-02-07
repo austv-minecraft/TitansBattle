@@ -8,6 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import me.roinujnosde.titansbattle.TitansBattle;
 
@@ -103,11 +104,24 @@ public class SpectatorManager {
      * Clears all spectators (used when game ends)
      */
     public void clearAll() {
+        clearAll(null);
+    }
+    
+    /**
+     * Clears all spectators and teleports them to the specified location
+     * 
+     * @param exitLocation The location to teleport spectators to, or null to not teleport
+     */
+    public void clearAll(@Nullable Location exitLocation) {
         // Create a copy to avoid ConcurrentModificationException
         for (UUID uuid : new HashMap<>(spectators).keySet()) {
             Player player = plugin.getServer().getPlayer(uuid);
             if (player != null && player.isOnline()) {
                 removeSpectator(player);
+                if (exitLocation != null) {
+                    player.teleport(exitLocation);
+                    plugin.debug("Teleported spectator " + player.getName() + " to exit location");
+                }
             }
         }
         spectators.clear();
