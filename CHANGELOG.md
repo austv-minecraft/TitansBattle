@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.6.1](https://github.com/austv-minecraft/TitansBattle/compare/v6.6.0...v6.6.1) (2026-02-28)
+
+
+### Bug Fixes
+
+* correções de problemas gerais referentes ao /assistir ([8a413fe](https://github.com/austv-minecraft/TitansBattle/commit/8a413feb19de26ef0816aa858047c4a04674d545))
+
 ## [6.6.0](https://github.com/austv-minecraft/TitansBattle/compare/v6.5.1...v6.6.0) (2026-02-07)
 
 
