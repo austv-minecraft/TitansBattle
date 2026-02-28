@@ -25,6 +25,7 @@ import co.aikar.commands.annotation.Optional;
 import co.aikar.commands.annotation.Subcommand;
 import co.aikar.commands.annotation.Values;
 import co.aikar.commands.bukkit.contexts.OnlinePlayer;
+import me.roinujnosde.titansbattle.BaseGame;
 import me.roinujnosde.titansbattle.BaseGameConfiguration;
 import me.roinujnosde.titansbattle.TitansBattle;
 import me.roinujnosde.titansbattle.challenges.ArenaConfiguration;
@@ -188,17 +189,32 @@ public class TBCommands extends BaseCommand {
     @Description("{@@command.description.watch}")
     public void watch(Player sender, Game game, @Optional ArenaConfiguration arena) {
         BaseGameConfiguration config;
+        BaseGame targetGame;
         if (arena == null && game == null) {
             sender.sendMessage(plugin.getLang("not-starting-or-started"));
             return;
         }
-        config = (arena == null) ? game.getConfig() : arena;
+        if (arena != null) {
+            config = arena;
+            // Find the Challenge associated with this arena
+            targetGame = plugin.getChallengeManager().getChallenges().stream()
+                    .filter(c -> c.getConfig().getName().equals(arena.getName()))
+                    .findFirst()
+                    .orElse(null);
+            if (targetGame == null) {
+                sender.sendMessage(plugin.getLang("not-starting-or-started"));
+                return;
+            }
+        } else {
+            config = game.getConfig();
+            targetGame = game;
+        }
 
         Location watchroom = config.getWatchroom();
         Double spectatorRange = config.getSpectatorRange();
         
-        // Add player as spectator first (this sets gamemode to SPECTATOR)
-        plugin.getSpectatorManager().addSpectator(sender, watchroom, spectatorRange);
+        // Add player as spectator for the specific game (this sets gamemode to SPECTATOR)
+        plugin.getSpectatorManager().addSpectator(sender, targetGame, watchroom, spectatorRange);
         
         // Then teleport to watchroom
         sender.teleport(watchroom);

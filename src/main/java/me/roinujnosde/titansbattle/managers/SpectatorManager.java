@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import me.roinujnosde.titansbattle.BaseGame;
 import me.roinujnosde.titansbattle.TitansBattle;
 
 /**
@@ -30,18 +31,20 @@ public class SpectatorManager {
      * Adds a player as spectator and sets them to spectator mode
      * 
      * @param player The player to add as spectator
+     * @param game The game the player is spectating
      * @param centerLocation The center location for the spectator range
      * @param range The maximum range in blocks for the spectator
      */
-    public void addSpectator(@NotNull Player player, @NotNull Location centerLocation, double range) {
+    public void addSpectator(@NotNull Player player, @NotNull BaseGame game, @NotNull Location centerLocation, double range) {
         SpectatorData data = new SpectatorData(
             player.getGameMode(), 
+            game,
             centerLocation.clone(),
             range
         );
         spectators.put(player.getUniqueId(), data);
         player.setGameMode(GameMode.SPECTATOR);
-        plugin.debug("Added spectator: " + player.getName() + " with range " + range);
+        plugin.debug("Added spectator: " + player.getName() + " watching " + game.getConfig().getName() + " with range " + range);
     }
     
     /**
@@ -54,6 +57,22 @@ public class SpectatorManager {
         if (data != null) {
             player.setGameMode(data.previousGameMode);
             plugin.debug("Removed spectator: " + player.getName());
+        }
+    }
+    
+    /**
+     * Handles a spectator disconnecting. Removes them from the spectator map
+     * and schedules them to be teleported to the exit on rejoin via the respawn list.
+     * 
+     * @param player The player who disconnected
+     */
+    public void handleDisconnect(@NotNull Player player) {
+        SpectatorData data = spectators.remove(player.getUniqueId());
+        if (data != null) {
+            // Add to respawn list so they'll be teleported to exit on rejoin
+            plugin.getConfigManager().getRespawn().add(player.getUniqueId());
+            plugin.getConfigManager().save();
+            plugin.debug("Spectator " + player.getName() + " disconnected, marked for teleport on rejoin");
         }
     }
     
@@ -101,7 +120,32 @@ public class SpectatorManager {
     }
     
     /**
-     * Clears all spectators (used when game ends)
+     * Clears all spectators watching a specific game and teleports them to the specified location
+     * 
+     * @param game The game whose spectators should be cleared
+     * @param exitLocation The location to teleport spectators to, or null to not teleport
+     */
+    public void clearAllForGame(@NotNull BaseGame game, @Nullable Location exitLocation) {
+        // Create a copy to avoid ConcurrentModificationException
+        for (Map.Entry<UUID, SpectatorData> entry : new HashMap<>(spectators).entrySet()) {
+            if (entry.getValue().game != game) {
+                continue;
+            }
+            Player player = plugin.getServer().getPlayer(entry.getKey());
+            if (player != null && player.isOnline()) {
+                removeSpectator(player);
+                if (exitLocation != null) {
+                    player.teleport(exitLocation);
+                    plugin.debug("Teleported spectator " + player.getName() + " to exit location");
+                }
+            } else {
+                spectators.remove(entry.getKey());
+            }
+        }
+    }
+    
+    /**
+     * Clears all spectators (used on plugin disable)
      */
     public void clearAll() {
         clearAll(null);
@@ -132,11 +176,13 @@ public class SpectatorManager {
      */
     private static class SpectatorData {
         private final GameMode previousGameMode;
+        private final BaseGame game;
         private final Location centerLocation;
         private final double maxRange;
         
-        SpectatorData(GameMode previousGameMode, Location centerLocation, double maxRange) {
+        SpectatorData(GameMode previousGameMode, BaseGame game, Location centerLocation, double maxRange) {
             this.previousGameMode = previousGameMode;
+            this.game = game;
             this.centerLocation = centerLocation;
             this.maxRange = maxRange;
         }

@@ -101,9 +101,9 @@ public abstract class BaseGame {
         if (getConfig().isWorldBorder()) {
             getConfig().getBorderCenter().getWorld().getWorldBorder().reset();
         }
-        // Remove all spectators and teleport them to exit location when game finishes
+        // Remove only spectators watching this specific game
         if (plugin.getSpectatorManager() != null) {
-            plugin.getSpectatorManager().clearAll(exitLocation);
+            plugin.getSpectatorManager().clearAllForGame(this, exitLocation);
         }
         Bukkit.getScheduler().runTask(plugin, () -> plugin.getDatabaseManager().saveAll());
         if (!cancelled) {

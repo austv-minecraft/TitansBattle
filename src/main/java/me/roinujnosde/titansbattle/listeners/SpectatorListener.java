@@ -82,9 +82,9 @@ public class SpectatorListener extends TBListener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         
-        // Remove player from spectator mode when they quit
+        // Remove player from spectator mode and schedule teleport to exit on rejoin
         if (plugin.getSpectatorManager().isSpectator(player)) {
-            plugin.getSpectatorManager().removeSpectator(player);
+            plugin.getSpectatorManager().handleDisconnect(player);
         }
     }
 }
