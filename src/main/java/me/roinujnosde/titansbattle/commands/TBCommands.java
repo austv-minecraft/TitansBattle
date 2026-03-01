@@ -183,6 +183,22 @@ public class TBCommands extends BaseCommand {
                 new SimpleDateFormat(dateFormat).format(date), name, group, members));
     }
 
+    @Subcommand("%unwatch|unwatch")
+    @CommandPermission("titansbattle.watch")
+    @Description("{@@command.description.unwatch}")
+    public void unwatch(Player sender) {
+        if (!plugin.getSpectatorManager().isSpectator(sender)) {
+            sender.sendMessage(plugin.getLang("not-spectating"));
+            return;
+        }
+        Location exitLocation = plugin.getSpectatorManager().getExitLocation(sender);
+        plugin.getSpectatorManager().removeSpectator(sender);
+        if (exitLocation != null) {
+            sender.teleport(exitLocation);
+        }
+        sender.sendMessage(plugin.getLang("spectator-left-mode"));
+    }
+
     @Subcommand("%watch|watch")
     @CommandPermission("titansbattle.watch")
     @CommandCompletion("@arenas:in_use")

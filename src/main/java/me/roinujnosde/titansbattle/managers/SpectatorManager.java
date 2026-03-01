@@ -120,6 +120,25 @@ public class SpectatorManager {
     }
     
     /**
+     * Gets the exit location for a spectator based on the game they are watching.
+     * Falls back to the general exit if the game exit is not set.
+     * 
+     * @param player The spectator player
+     * @return The exit location, or null if none is configured
+     */
+    public @Nullable Location getExitLocation(@NotNull Player player) {
+        SpectatorData data = spectators.get(player.getUniqueId());
+        if (data == null || data.game == null) {
+            return plugin.getConfigManager().getGeneralExit();
+        }
+        Location exit = data.game.getConfig().getExit();
+        if (exit == null) {
+            exit = plugin.getConfigManager().getGeneralExit();
+        }
+        return exit;
+    }
+    
+    /**
      * Clears all spectators watching a specific game and teleports them to the specified location
      * 
      * @param game The game whose spectators should be cleared
