@@ -45,7 +45,7 @@ public class SpectatorListener extends TBListener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
         
@@ -58,24 +58,20 @@ public class SpectatorListener extends TBListener {
             return;
         }
         
-        // Check if teleport is within range for spectators
-        if (!plugin.getSpectatorManager().isWithinRange(player, to)) {
-            // Check if it's a command-based teleport (player wants to leave spectator mode)
-            PlayerTeleportEvent.TeleportCause cause = event.getCause();
-            if (cause == PlayerTeleportEvent.TeleportCause.COMMAND || 
-                cause == PlayerTeleportEvent.TeleportCause.PLUGIN) {
-                // Allow the teleport and remove from spectator mode
-                plugin.getSpectatorManager().removeSpectator(player);
-                player.sendMessage(plugin.getLang("spectator-left-mode"));
-                plugin.debug("Spectator " + player.getName() + " left spectator mode via teleport command");
-                return;
-            }
-            
-            // Cancel other types of teleports (spectator clicking, etc)
-            event.setCancelled(true);
-            player.sendMessage(plugin.getLang("spectator-range-limit"));
-            plugin.debug("Cancelled spectator teleport for " + player.getName() + " - outside range");
+        // Allow teleports within the spectator range
+        if (plugin.getSpectatorManager().isWithinRange(player, to)) {
+            return;
         }
+        
+        // Allow teleports initiated by the plugin itself (e.g., unwatch command, game ending)
+        if (event.getCause() == PlayerTeleportEvent.TeleportCause.PLUGIN) {
+            return;
+        }
+        
+        // Block all other out-of-range teleports (commands like /home, /spawn, spectator clicking, etc.)
+        event.setCancelled(true);
+        player.sendMessage(plugin.getLang("spectator-use-unwatch"));
+        plugin.debug("Blocked spectator teleport for " + player.getName() + " - use /tb unwatch to leave");
     }
 
     @EventHandler

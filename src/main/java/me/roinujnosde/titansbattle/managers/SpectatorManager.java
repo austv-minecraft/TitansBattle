@@ -36,8 +36,13 @@ public class SpectatorManager {
      * @param range The maximum range in blocks for the spectator
      */
     public void addSpectator(@NotNull Player player, @NotNull BaseGame game, @NotNull Location centerLocation, double range) {
+        // Preserve the original gamemode if the player is already a spectator
+        // to prevent losing the real previous gamemode on repeated /watch calls
+        SpectatorData existing = spectators.get(player.getUniqueId());
+        GameMode previousGameMode = (existing != null) ? existing.previousGameMode : player.getGameMode();
+        
         SpectatorData data = new SpectatorData(
-            player.getGameMode(), 
+            previousGameMode, 
             game,
             centerLocation.clone(),
             range
