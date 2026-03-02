@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.6.2](https://github.com/austv-minecraft/TitansBattle/compare/v6.6.1...v6.6.2) (2026-03-02)
+
+
+### Bug Fixes
+
+* correção de exploit no modo espectador e novo comando unwatch ([eb49f96](https://github.com/austv-minecraft/TitansBattle/commit/eb49f962a6522f57ebecd3f7cc92fd1ecff6a8d7))
+
 ## [6.6.1](https://github.com/austv-minecraft/TitansBattle/compare/v6.6.0...v6.6.1) (2026-02-28)
 
 
