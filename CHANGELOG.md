@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.6.3](https://github.com/austv-minecraft/TitansBattle/compare/v6.6.2...v6.6.3) (2026-03-02)
+
+
+### Bug Fixes
+
+* Erro de teleporte ([dcfa335](https://github.com/austv-minecraft/TitansBattle/commit/dcfa335ac13c17435f7afa053196585dc8645913))
+
 ## [6.6.2](https://github.com/austv-minecraft/TitansBattle/compare/v6.6.1...v6.6.2) (2026-03-02)
 
 
