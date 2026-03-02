@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.Nullable;
 
 import co.aikar.commands.BaseCommand;
@@ -194,7 +195,7 @@ public class TBCommands extends BaseCommand {
         Location exitLocation = plugin.getSpectatorManager().getExitLocation(sender);
         plugin.getSpectatorManager().removeSpectator(sender);
         if (exitLocation != null) {
-            sender.teleport(exitLocation);
+            sender.teleport(exitLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
         sender.sendMessage(plugin.getLang("spectator-left-mode"));
     }
@@ -232,8 +233,8 @@ public class TBCommands extends BaseCommand {
         // Add player as spectator for the specific game (this sets gamemode to SPECTATOR)
         plugin.getSpectatorManager().addSpectator(sender, targetGame, watchroom, spectatorRange);
         
-        // Then teleport to watchroom
-        sender.teleport(watchroom);
+        // Teleport to watchroom using PLUGIN cause so the SpectatorListener allows it
+        sender.teleport(watchroom, PlayerTeleportEvent.TeleportCause.PLUGIN);
         
         SoundUtils.playSound(SoundUtils.Type.WATCH, plugin.getConfig(), sender);
     }
