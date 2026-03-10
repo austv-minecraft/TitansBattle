@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.6.4](https://github.com/austv-minecraft/TitansBattle/compare/v6.6.3...v6.6.4) (2026-03-10)
+
+
+### Bug Fixes
+
+* corrigir autenticação do release-please workflow ([dd6b1d9](https://github.com/austv-minecraft/TitansBattle/commit/dd6b1d9987ff75deee540b56084650081b5c6e2d))
+* usar PAT_TOKEN para suportar repositório fork ([584ae8f](https://github.com/austv-minecraft/TitansBattle/commit/584ae8fec520b518b299a17f7d517c54f58b17bd))
+
 ## [6.6.3](https://github.com/austv-minecraft/TitansBattle/compare/v6.6.2...v6.6.3) (2026-03-02)
 
 
