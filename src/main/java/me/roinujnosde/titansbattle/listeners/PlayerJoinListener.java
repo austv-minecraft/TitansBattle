@@ -23,20 +23,21 @@
  */
 package me.roinujnosde.titansbattle.listeners;
 
-import me.roinujnosde.titansbattle.TitansBattle;
-import me.roinujnosde.titansbattle.managers.ConfigManager;
-import me.roinujnosde.titansbattle.types.Kit;
-import me.roinujnosde.titansbattle.utils.Helper;
-import me.roinujnosde.titansbattle.utils.MessageUtils;
-import me.roinujnosde.titansbattle.utils.SoundUtils;
+import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.UUID;
+import me.roinujnosde.titansbattle.TitansBattle;
+import me.roinujnosde.titansbattle.managers.ConfigManager;
+import me.roinujnosde.titansbattle.types.Kit;
+import me.roinujnosde.titansbattle.utils.Helper;
+import me.roinujnosde.titansbattle.utils.MessageUtils;
+import me.roinujnosde.titansbattle.utils.SoundUtils;
 
 /**
  *
@@ -96,6 +97,21 @@ public class PlayerJoinListener extends TBListener {
         if (!cm.getRespawn().contains(player.getUniqueId())) {
             return;
         }
+        
+        // Restore the original gamemode if player was a spectator
+        String savedGameMode = cm.getSpectatorGameModes().get(player.getUniqueId());
+        if (savedGameMode != null) {
+            try {
+                org.bukkit.GameMode gameMode = org.bukkit.GameMode.valueOf(savedGameMode);
+                player.setGameMode(gameMode);
+                plugin.debug("Restored gamemode " + gameMode + " for " + player.getName());
+            } catch (IllegalArgumentException ex) {
+                plugin.getLogger().warning("Invalid gamemode %s for %s, defaulting to SURVIVAL".formatted(savedGameMode, player.getName()));
+                player.setGameMode(org.bukkit.GameMode.SURVIVAL);
+            }
+            cm.getSpectatorGameModes().remove(player.getUniqueId());
+        }
+        
         if (cm.getGeneralExit() != null) {
             SoundUtils.playSound(SoundUtils.Type.TELEPORT, plugin.getConfig(), player);
             player.teleport(cm.getGeneralExit());

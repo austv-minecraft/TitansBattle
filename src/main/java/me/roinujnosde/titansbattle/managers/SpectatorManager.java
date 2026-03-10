@@ -66,18 +66,25 @@ public class SpectatorManager {
     }
     
     /**
-     * Handles a spectator disconnecting. Removes them from the spectator map
-     * and schedules them to be teleported to the exit on rejoin via the respawn list.
+     * Handles a spectator disconnecting. Removes them from the spectator map,
+     * saves their original gamemode, and schedules them to be teleported to the exit on rejoin.
      * 
      * @param player The player who disconnected
      */
     public void handleDisconnect(@NotNull Player player) {
         SpectatorData data = spectators.remove(player.getUniqueId());
         if (data != null) {
+            // Save the original gamemode for restoration on rejoin
+            plugin.getConfigManager().getSpectatorGameModes().put(
+                player.getUniqueId(), 
+                data.previousGameMode.name()
+            );
+            
             // Add to respawn list so they'll be teleported to exit on rejoin
             plugin.getConfigManager().getRespawn().add(player.getUniqueId());
             plugin.getConfigManager().save();
-            plugin.debug("Spectator " + player.getName() + " disconnected, marked for teleport on rejoin");
+            plugin.debug("Spectator " + player.getName() + " disconnected, saved gamemode " + 
+                        data.previousGameMode + " for restoration on rejoin");
         }
     }
     

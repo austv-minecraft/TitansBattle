@@ -23,20 +23,21 @@
  */
 package me.roinujnosde.titansbattle.managers;
 
-import me.roinujnosde.titansbattle.TitansBattle;
-import me.roinujnosde.titansbattle.types.Event;
-import me.roinujnosde.titansbattle.types.Event.Frequency;
-import me.roinujnosde.titansbattle.utils.Helper;
-import org.bukkit.Location;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
+
+import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.jetbrains.annotations.NotNull;
+
+import me.roinujnosde.titansbattle.TitansBattle;
+import me.roinujnosde.titansbattle.types.Event;
+import me.roinujnosde.titansbattle.types.Event.Frequency;
+import me.roinujnosde.titansbattle.utils.Helper;
 
 /**
  *
@@ -50,10 +51,19 @@ public final class ConfigManager {
     private final List<Event> events = new ArrayList<>();
     private List<UUID> respawn = new ArrayList<>();
     private List<UUID> clearInventory = new ArrayList<>();
+    private final java.util.Map<UUID, String> spectatorGameModes = new java.util.HashMap<>();
 
     public void save() {
         config.set("data.respawn", Helper.uuidListToStringList(respawn));
         config.set("data.clear_inv", Helper.uuidListToStringList(clearInventory));
+        
+        // Save spectator gamemodes
+        List<String> gameModeData = new ArrayList<>();
+        for (java.util.Map.Entry<UUID, String> entry : spectatorGameModes.entrySet()) {
+            gameModeData.add(entry.getKey().toString() + ":" + entry.getValue());
+        }
+        config.set("data.spectator_gamemodes", gameModeData);
+        
         plugin.saveConfig();
     }
 
@@ -83,6 +93,21 @@ public final class ConfigManager {
         }
         clearInventory = Helper.stringListToUuidList(config.getStringList("data.clear_inv"));
         respawn = Helper.stringListToUuidList(config.getStringList("data.respawn"));
+        
+        // Load spectator gamemodes
+        spectatorGameModes.clear();
+        List<String> gameModeData = config.getStringList("data.spectator_gamemodes");
+        for (String data : gameModeData) {
+            String[] parts = data.split(":", 2);
+            if (parts.length == 2) {
+                try {
+                    UUID uuid = UUID.fromString(parts[0]);
+                    spectatorGameModes.put(uuid, parts[1]);
+                } catch (IllegalArgumentException ex) {
+                    plugin.getLogger().log(Level.WARNING, "Invalid UUID in spectator gamemodes: {0}", parts[0]);
+                }
+            }
+        }
     }
 
     public void setGeneralExit(Location generalExit) {
@@ -197,5 +222,13 @@ public final class ConfigManager {
 
     public String getDateFormat() {
         return config.getString("date-format");
+    }
+
+    /**
+     * Gets the map of spectator gamemodes to restore on rejoin
+     * @return map of UUID to GameMode name
+     */
+    public java.util.Map<UUID, String> getSpectatorGameModes() {
+        return spectatorGameModes;
     }
 }
