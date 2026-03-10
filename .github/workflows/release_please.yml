@@ -15,8 +15,7 @@ jobs:
         with:
           release-type: maven
           package-name: TitansBattle
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fork: false
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Checkout code
         if: ${{ steps.release.outputs.release_created }}
@@ -39,7 +38,7 @@ jobs:
       - name: Upload Release Artifact
         if: ${{ steps.release.outputs.release_created }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           JAR_FILE=$(find target -name "*.jar" | head -n 1)
           gh release upload ${{ steps.release.outputs.tag_name }} "$JAR_FILE"
