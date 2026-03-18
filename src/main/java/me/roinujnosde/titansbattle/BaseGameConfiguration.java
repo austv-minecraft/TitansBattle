@@ -94,6 +94,9 @@ public abstract class BaseGameConfiguration implements ConfigurationSerializable
     @Path("spectator-range")
     protected Double spectatorRange = 50.0;
 
+    @Path("teleport.allow-command")
+    protected Boolean allowCommandTeleport = false;
+
     public @NotNull FileConfiguration getFileConfiguration() {
         if (fileConfiguration == null) {
             throw new IllegalStateException();
@@ -263,6 +266,10 @@ public abstract class BaseGameConfiguration implements ConfigurationSerializable
 
     public Double getSpectatorRange() {
         return spectatorRange;
+    }
+
+    public Boolean isAllowCommandTeleport() {
+        return allowCommandTeleport;
     }
 
     public Integer getBorderInterval() {
